@@ -1,0 +1,6 @@
+<manifest>
+    <application>             
+        <activity android:name="com.alipay.android.app.sdk.WapPayActivity"
+             android:screenOrientation="portrait"></activity>
+    </application>
+</manifest>
