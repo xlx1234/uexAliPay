@@ -25,8 +25,16 @@
             </intent-filter>
         </activity>
         
-        <activity android:name="com.alipay.android.app.sdk.WapPayActivity"
-             android:screenOrientation="portrait"></activity>
+        <!-- alipay sdk begin -->
+        <activity
+            android:name="com.alipay.sdk.app.H5PayActivity"
+            android:configChanges="orientation|keyboardHidden|navigation"
+            android:exported="false"
+            android:screenOrientation="behind"
+            android:windowSoftInputMode="adjustResize|stateHidden" >
+        </activity>
+
+        <!-- alipay sdk end -->
     </application>
 	<uses-permission android:name="android.permission.RECORD_AUDIO" />
     <uses-permission android:name="android.permission.INTERNET" />

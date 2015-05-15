@@ -1,6 +1,11 @@
 <manifest>
-    <application>             
-        <activity android:name="com.alipay.android.app.sdk.WapPayActivity"
-             android:screenOrientation="portrait"></activity>
+    <application>
+        <activity
+            android:name="com.alipay.sdk.app.H5PayActivity"
+            android:configChanges="orientation|keyboardHidden|navigation"
+            android:exported="false"
+            android:screenOrientation="behind"
+            android:windowSoftInputMode="adjustResize|stateHidden" >
+        </activity>
     </application>
 </manifest>
