@@ -7,13 +7,14 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import org.zywx.wbpalmstar.base.BHtmlDecrypt;
 
-import com.alipay.android.app.sdk.AliPay;
 import android.app.Activity;
 import android.content.Context;
 import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
 import android.widget.Toast;
+
+import com.alipay.sdk.app.PayTask;
 
 public class PFAlixpay {
 
@@ -49,35 +50,58 @@ public class PFAlixpay {
 	}
 
 	public void pay(String inTradeNum, String inSubject, String inBody,
-			String inTotalFee, Handler inCallBack, PayConfig payConfig) {
+			String inTotalFee, final Handler inCallBack, PayConfig payConfig) {
 		boolean ret = false;
-		String submitInfo = "";
 		try{
 			String orderInfo = getOrderInfo(inTradeNum, inSubject, inBody, inTotalFee, payConfig);
 			String signType = getSignType();
 			String sign = sign(signType, orderInfo);
-			sign = URLEncoder.encode(sign);
-			submitInfo = orderInfo + SIGN + "\"" + sign + "\"&" + getSignType();
-			AliPay alipay = new AliPay((Activity) mContext, inCallBack);
-			String result = alipay.pay(submitInfo);
-			Message msg = new Message();
-			msg.what = AlixId.RQF_PAY;
-			msg.obj = result;
-			inCallBack.sendMessage(msg);
-			Log.i("System.out", "result = " + result);
+			sign = URLEncoder.encode(sign, "UTF-8");
+            final String submitInfo = orderInfo + SIGN + "\"" + sign + "\"&" + getSignType();
+
+			Runnable payRunnable = new Runnable() {
+
+				@Override
+				public void run() {
+					// 构造PayTask 对象
+					PayTask alipay = new PayTask((Activity) mContext);
+					// 调用支付接口
+					String result = alipay.pay(submitInfo);
+
+					Message msg = new Message();
+					msg.what = AlixId.RQF_PAY;
+					msg.obj = result;
+                    inCallBack.sendMessage(msg);
+				}
+			};
+
+			Thread payThread = new Thread(payRunnable);
+			payThread.start();
 		} catch (Exception e) {
 			Toast.makeText(mContext, "算法异常!", Toast.LENGTH_SHORT).show();
 		}
 	}
 	
-	public void fastPay(String submitInfo, Handler inCallBack) {
+	public void fastPay(final String submitInfo, final Handler inCallBack) {
 		try {
-			AliPay alipay = new AliPay((Activity) mContext, inCallBack);
-			String result = alipay.pay(submitInfo);
-			Message msg = new Message();
-			msg.what = AlixId.RQF_PAY;
-			msg.obj = result;
-			inCallBack.sendMessage(msg);
+            Runnable payRunnable = new Runnable() {
+
+                @Override
+                public void run() {
+                    // 构造PayTask 对象
+                    PayTask alipay = new PayTask((Activity) mContext);
+                    // 调用支付接口
+                    String result = alipay.pay(submitInfo);
+
+                    Message msg = new Message();
+                    msg.what = AlixId.RQF_PAY;
+                    msg.obj = result;
+                    inCallBack.sendMessage(msg);
+                }
+            };
+
+            Thread payThread = new Thread(payRunnable);
+            payThread.start();
 		} catch (Exception e) {
 			Toast.makeText(mContext, "支付信息错误!", Toast.LENGTH_SHORT).show();
 		}

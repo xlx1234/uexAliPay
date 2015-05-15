@@ -1,8 +1,9 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <uexplugins>
     <plugin
-        uexName="uexAliPay" version="3.0.6" build="6">
-		<info>6:插件主页面点击物理返回键，插件崩溃</info>
+        uexName="uexAliPay" version="3.0.7" build="7">
+		<info>7:更新支付宝SDK</info>
+		<build>6:插件主页面点击物理返回键，插件崩溃</build>
 		<build>5:新增gotoPay传入服务器签名好的数据直接支付</build>
 		<build>4:统一支付返回状态</build>
         <build>3:添加必要库文件</build>
