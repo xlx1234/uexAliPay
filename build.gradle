@@ -2,9 +2,6 @@ apply plugin: 'com.android.application'
 
 dependencies {
     compile fileTree(dir: 'libs', include: '*.jar')
-    compile files('libs/alipaysdk.jar')
-    compile files('libs/alipaysecsdk.jar')
-    compile files('libs/alipayutdid.jar')
 }
 
 android {

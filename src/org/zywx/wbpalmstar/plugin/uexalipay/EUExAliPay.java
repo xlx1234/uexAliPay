@@ -1,11 +1,11 @@
 package org.zywx.wbpalmstar.plugin.uexalipay;
-import org.zywx.wbpalmstar.engine.EBrowserView;
-import org.zywx.wbpalmstar.engine.universalex.EUExBase;
-import org.zywx.wbpalmstar.engine.universalex.EUExCallback;
-
 import android.content.Context;
 import android.os.Handler;
 import android.os.Message;
+
+import org.zywx.wbpalmstar.engine.EBrowserView;
+import org.zywx.wbpalmstar.engine.universalex.EUExBase;
+import org.zywx.wbpalmstar.engine.universalex.EUExCallback;
 
 public class EUExAliPay extends EUExBase {
 
@@ -69,13 +69,6 @@ public class EUExAliPay extends EUExBase {
 				m_paying = false;
 				return;
 			}
-			if (!alipay.checkApp()) {
-				m_paying = false;
-				onCallback(SCRIPT_HEADER + "if(" + onFunction + "){"
-						+ onFunction + "(" + EUExCallback.F_C_PAYFAILED + ",'"
-						+ "支付插件不完整" + "');}");
-				return;
-			}
 			alipay.pay(inTradeNum, inSubject, inBody, inTotalFee, m_eCallBack, config);
 		} catch (Exception e) {
 			m_paying = false;
@@ -97,13 +90,6 @@ public class EUExAliPay extends EUExBase {
 		}
 		try {
 			PFAlixpay alipay = PFAlixpay.get(mContext);
-			if (!alipay.checkApp()) {
-				m_paying = false;
-				onCallback(SCRIPT_HEADER + "if(" + onFunction + "){"
-						+ onFunction + "(" + EUExCallback.F_C_PAYFAILED + ",'"
-						+ "支付插件不完整" + "');}");
-				return;
-			}
 			alipay.fastPay(submitInfo, m_eCallBack);
 		} catch (Exception e) {
 			m_paying = false;

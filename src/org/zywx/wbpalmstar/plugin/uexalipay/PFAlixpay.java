@@ -1,20 +1,19 @@
 package org.zywx.wbpalmstar.plugin.uexalipay;
 
-import java.net.URLEncoder;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import org.json.JSONException;
-import org.json.JSONObject;
-import org.zywx.wbpalmstar.base.BHtmlDecrypt;
-
 import android.app.Activity;
 import android.content.Context;
 import android.os.Handler;
 import android.os.Message;
-import android.util.Log;
 import android.widget.Toast;
 
 import com.alipay.sdk.app.PayTask;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.net.URLEncoder;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 public class PFAlixpay {
 
@@ -154,15 +153,6 @@ public class PFAlixpay {
 		strKey = strKey + r.nextInt();
 		strKey = strKey.substring(0, 15);
 		return strKey;
-	}
-	
-	public boolean checkApp(){
-		MobileSecurePayHelper mspHelper = new MobileSecurePayHelper(mContext);
-		boolean isExist = mspHelper.detectPlugin(mPayConfig);
-		if (!isExist){
-			return false;
-		}
-		return true;
 	}
 	
 	public PayConfig getPayConfig() {
