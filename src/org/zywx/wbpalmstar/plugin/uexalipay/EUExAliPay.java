@@ -3,8 +3,6 @@ import android.content.Context;
 import android.os.Handler;
 import android.os.Message;
 
-import org.json.JSONException;
-import org.json.JSONObject;
 import org.zywx.wbpalmstar.engine.EBrowserView;
 import org.zywx.wbpalmstar.engine.universalex.EUExBase;
 import org.zywx.wbpalmstar.engine.universalex.EUExCallback;
@@ -181,14 +179,7 @@ public class EUExAliPay extends EUExBase {
         String js = SCRIPT_HEADER + "if(" + onFunction + "){" + onFunction + "(" + status + ",'" + msg + "');}";
         onCallback(js);
         if (null != payFuncId) {
-            JSONObject obj = new JSONObject();
-            try {
-                obj.put("status", status);
-                obj.put("msg", msg);
-                callbackToJs(Integer.parseInt(payFuncId), false, obj);
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
+            callbackToJs(Integer.parseInt(payFuncId), false, status, msg);
         }
     }
 

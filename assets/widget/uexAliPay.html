@@ -37,11 +37,9 @@
 		uexAliPay.setPayInfo(partner, seller, rsaPrivate, rsaPublic, notifyUrl);
 	}
 
-    var commonCallback = function(data) {
-        var result = "data:" + JSON.stringify(data);
-        console.log(result);
-        alert(result);
-        document.getElementById('adre').innerHTML  = data.msg;
+    var commonCallback = function(status, msg) {
+        alert(status + "   " + msg);
+        document.getElementById('adre').innerHTML  = msg;
 
     };
 
