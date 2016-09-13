@@ -34,13 +34,13 @@ public class PFAlixpay {
 	static final String SHOW_URL    = "show_url=";
 	private Context mContext;
 	private PayConfig mPayConfig;
-	
+
 	private static PFAlixpay instance;
-	
+
 	private PFAlixpay(Context context){
 		mContext = context;
 	}
-	
+
 	public static PFAlixpay get(Context context){
 		if(null == instance){
 			instance = new PFAlixpay(context);
@@ -65,7 +65,7 @@ public class PFAlixpay {
 					// 构造PayTask 对象
 					PayTask alipay = new PayTask((Activity) mContext);
 					// 调用支付接口
-					String result = alipay.pay(submitInfo);
+					String result = alipay.pay(submitInfo, true);
 
 					Message msg = new Message();
 					msg.what = AlixId.RQF_PAY;
@@ -80,7 +80,7 @@ public class PFAlixpay {
 			Toast.makeText(mContext, "算法异常!", Toast.LENGTH_SHORT).show();
 		}
 	}
-	
+
 	public void fastPay(final String submitInfo, final Handler inCallBack) {
 		try {
             Runnable payRunnable = new Runnable() {
@@ -90,7 +90,7 @@ public class PFAlixpay {
                     // 构造PayTask 对象
                     PayTask alipay = new PayTask((Activity) mContext);
                     // 调用支付接口
-                    String result = alipay.pay(submitInfo);
+                    String result = alipay.pay(submitInfo, true);
 
                     Message msg = new Message();
                     msg.what = AlixId.RQF_PAY;
@@ -105,7 +105,7 @@ public class PFAlixpay {
 			Toast.makeText(mContext, "支付信息错误!", Toast.LENGTH_SHORT).show();
 		}
 	}
-	
+
 	private String getOrderInfo(String inTradeNum, String inSubject, String inBody, String inTotalFee, PayConfig payConfig){
 		boolean isDebug = false;
 		if(isDebug){
@@ -135,16 +135,16 @@ public class PFAlixpay {
 		orderInfo += IT_B_PAY + "\"" + "30m" + "\"";
 		return orderInfo;
 	}
-	
+
 	private String getSignType() {
 
 		return SIGN_TYPE + "\"" + RSA + "\"";
 	}
-	
+
 	private String sign(String signType, String content) {
 		return Rsa.sign(content, mPayConfig.mRsaPrivate);
 	}
-	
+
 	private String getTradeNum() { //use to test
 		SimpleDateFormat format = new SimpleDateFormat("MMddHHmmss");
 		Date date = new Date();
@@ -154,7 +154,7 @@ public class PFAlixpay {
 		strKey = strKey.substring(0, 15);
 		return strKey;
 	}
-	
+
 	public PayConfig getPayConfig() {
 		if (null == mPayConfig) {
 			return null;
