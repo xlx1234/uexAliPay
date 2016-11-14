@@ -1,8 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <uexplugins>
-    <plugin
-        uexName="uexAliPay" version="4.0.0" build="1">
-	    	<info>1:4.0插件</info>
+    <plugin uexName="uexAliPay" version="4.0.0" build="1">
+	    <info>1:4.0插件</info>
 		<build>0:支付宝功能插件</build>
     </plugin>
 </uexplugins>
