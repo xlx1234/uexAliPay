@@ -31,7 +31,11 @@ android {
     lintOptions {
         abortOnError false
     }
-
+    defaultConfig {
+        minSdkVersion 14
+        applicationId 'org.zywx.wbpalmstar.widgetone.uexalipay'
+        multiDexEnabled true
+    }
     sourceSets {
         main {
             manifest.srcFile 'AndroidManifest.xml'
