@@ -1,16 +1,7 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+﻿﻿<?xml version="1.0" encoding="utf-8"?>
 <uexplugins>
-    <plugin
-        uexName="uexAliPay" version="3.0.9" build="9">
-		<info>9:升级支付宝SDK, 解决唤起支付宝APP失败</info>
-		<build>8:更新支付宝SDK。解决当用户手机没有安装支付宝快捷支付服务时出现解析包错误的问题</build>
-		<build>7:更新支付宝SDK</build>
-		<build>6:插件主页面点击物理返回键，插件崩溃</build>
-		<build>5:新增gotoPay传入服务器签名好的数据直接支付</build>
-		<build>4:统一支付返回状态</build>
-        <build>3:添加必要库文件</build>
-		<build>2:修复参数问题</build>
-		<build>1:修复不兼容安卓4.4的问题</build>
+    <plugin uexName="uexAliPay" version="4.0.0" build="1">
+	    <info>1:4.0插件</info>
 		<build>0:支付宝功能插件</build>
     </plugin>
 </uexplugins>

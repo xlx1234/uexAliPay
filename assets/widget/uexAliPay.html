@@ -37,14 +37,19 @@
 		uexAliPay.setPayInfo(partner, seller, rsaPrivate, rsaPublic, notifyUrl);
 	}
 
+    var commonCallback = function(status, msg) {
+        alert(status + "   " + msg);
+        document.getElementById('adre').innerHTML  = msg;
+
+    };
+
 	function pay(){
 		setInfo();
 		var subject = document.getElementById("subject").value;
 		var body = document.getElementById("bodyy").value;
 		var fee = document.getElementById("fee").value;
 		var num = document.getElementById("num").value;
-		uexAliPay.pay(num, subject, body, fee);
-
+		uexAliPay.pay(num, subject, body, fee, commonCallback);
 	}
 
 	function gotoPay() {
@@ -52,20 +57,7 @@
 		uexAliPay.gotoPay(info);
 	}
 
-	function paySuccess(status, des){
-		document.getElementById('adre').innerHTML  = des;
-	}
-
-	function payFailed(opCode, errorCode, des){
-
-		document.getElementById('adre').innerHTML  = des;
-	}
-
-	window.uexOnload = function(){
-		uexAliPay.onStatus = paySuccess;
-		uexWidgetOne.cbError = payFailed;
-	}
-		</script>
+	</script>
   </head>
 <body class="um-vp " ontouchstart>
 	<div class="conbor">
@@ -75,7 +67,7 @@
 			<b>标题：</b><input type="text" id="subject" value="珍珠项链"><br>
 			<b>简介：</b><input type="text" id="bodyy" value="韩版,韩国流行饰品小太阳花小巧雏菊 珍珠项链2M15。"><br>
 			<b>总价：</b><input type="text" id="fee" value="0.01"><br>
-			<b>编号：</b><input type="text" id="num" value="200155562"><br>
+			<b>编号：</b><input type="text" id="num" value="200155555"><br>
 			<span>商家信息：</span>
 			<b>回调地址：</b><input type="text" id="notifyURL" value="www.123.com"><br>
 			<span>支付结果：</span>
