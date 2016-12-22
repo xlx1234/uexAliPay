@@ -65,7 +65,7 @@ public class PFAlixpay {
 					// 构造PayTask 对象
 					PayTask alipay = new PayTask((Activity) mContext);
 					// 调用支付接口
-					String result = alipay.pay(submitInfo);
+					String result = alipay.pay(submitInfo,true);
 
 					Message msg = new Message();
 					msg.what = AlixId.RQF_PAY;
@@ -90,7 +90,7 @@ public class PFAlixpay {
                     // 构造PayTask 对象
                     PayTask alipay = new PayTask((Activity) mContext);
                     // 调用支付接口
-                    String result = alipay.pay(submitInfo);
+                    String result = alipay.pay(submitInfo,true);
 
                     Message msg = new Message();
                     msg.what = AlixId.RQF_PAY;
