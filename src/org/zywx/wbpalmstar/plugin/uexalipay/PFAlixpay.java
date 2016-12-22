@@ -80,7 +80,7 @@ public class PFAlixpay {
 			Toast.makeText(mContext, "算法异常!", Toast.LENGTH_SHORT).show();
 		}
 	}
-	
+
 	public void fastPay(final String submitInfo, final Handler inCallBack) {
 		try {
             Runnable payRunnable = new Runnable() {
@@ -105,7 +105,7 @@ public class PFAlixpay {
 			Toast.makeText(mContext, "支付信息错误!", Toast.LENGTH_SHORT).show();
 		}
 	}
-	
+
 	private String getOrderInfo(String inTradeNum, String inSubject, String inBody, String inTotalFee, PayConfig payConfig){
 		boolean isDebug = false;
 		if(isDebug){
@@ -135,16 +135,16 @@ public class PFAlixpay {
 		orderInfo += IT_B_PAY + "\"" + "30m" + "\"";
 		return orderInfo;
 	}
-	
+
 	private String getSignType() {
 
 		return SIGN_TYPE + "\"" + RSA + "\"";
 	}
-	
+
 	private String sign(String signType, String content) {
 		return Rsa.sign(content, mPayConfig.mRsaPrivate);
 	}
-	
+
 	private String getTradeNum() { //use to test
 		SimpleDateFormat format = new SimpleDateFormat("MMddHHmmss");
 		Date date = new Date();
@@ -154,7 +154,7 @@ public class PFAlixpay {
 		strKey = strKey.substring(0, 15);
 		return strKey;
 	}
-	
+
 	public PayConfig getPayConfig() {
 		if (null == mPayConfig) {
 			return null;

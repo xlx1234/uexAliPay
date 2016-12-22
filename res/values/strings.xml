@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8" standalone="no"?>
 <resources>
 
+<!-- common use通用字符串 -->
     <string name="app_name">uexAliPay</string>
+
 
     <!-- alipay_lib sdk -->
     <string name="plugin_uexAliPay_confirm_title">提示</string>
