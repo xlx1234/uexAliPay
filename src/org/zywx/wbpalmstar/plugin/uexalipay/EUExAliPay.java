@@ -3,9 +3,14 @@ import android.content.Context;
 import android.os.Handler;
 import android.os.Message;
 
+import com.alipay.android.app.lib.OrderInfoUtil2_0;
+import org.zywx.wbpalmstar.engine.DataHelper;
 import org.zywx.wbpalmstar.engine.EBrowserView;
 import org.zywx.wbpalmstar.engine.universalex.EUExBase;
 import org.zywx.wbpalmstar.engine.universalex.EUExCallback;
+import org.zywx.wbpalmstar.plugin.uexalipay.vo.GeneratePayOrderVO;
+
+import java.util.Map;
 
 public class EUExAliPay extends EUExBase {
 
@@ -85,6 +90,19 @@ public class EUExAliPay extends EUExBase {
             m_paying = false;
             errorCallback(0, 0, e.toString());
         }
+    }
+
+    public void payWithOrder(String[] params){
+        gotoPay(params);
+    }
+
+    public String generatePayOrder(String[] params){
+        GeneratePayOrderVO payOrderVO= DataHelper.gson.fromJson(params[0],GeneratePayOrderVO.class);
+
+        Map<String, String> payParams = OrderInfoUtil2_0.buildOrderParamMap(payOrderVO);
+        String orderParam = OrderInfoUtil2_0.buildOrderParam(payParams);
+        String sign = OrderInfoUtil2_0.getSign(payParams, payOrderVO.private_key);
+        return orderParam + "&" + sign;
     }
 
     public void gotoPay(String[] params) {

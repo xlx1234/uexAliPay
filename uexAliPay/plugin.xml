@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <uexplugins>
-     <plugin
-        className="org.zywx.wbpalmstar.plugin.uexalipay.EUExAliPay" uexName="uexAliPay" >
-        <method name="pay" />
-        <method name="setPayInfo" />
+    <plugin
+            className="org.zywx.wbpalmstar.plugin.uexalipay.EUExAliPay" uexName="uexAliPay">
+        <method name="pay"/>
+        <method name="setPayInfo"/>
         <method name="gotoPay"/>
+        <method name="payWithOrder"/>
+        <method name="generatePayOrder"/>
     </plugin>
 </uexplugins>
