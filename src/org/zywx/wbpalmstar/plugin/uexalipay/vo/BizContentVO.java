@@ -5,7 +5,7 @@ import java.io.Serializable;
 /**
  * Created by ylt on 2016/12/23.
  */
-public class BizContentVO  implements Serializable {
+public class BizContentVO implements Serializable {
 
     public String subject;
 
@@ -17,8 +17,8 @@ public class BizContentVO  implements Serializable {
 
     public String seller_id;
 
-    public String product_code="QUICK_MSECURITY_PAY";
+    public String product_code = "QUICK_MSECURITY_PAY";
 
-    public String timeout_express="30m";
+    public String timeout_express = "30m";
 
 }

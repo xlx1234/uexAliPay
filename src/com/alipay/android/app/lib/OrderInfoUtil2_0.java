@@ -5,7 +5,6 @@ import org.zywx.wbpalmstar.plugin.uexalipay.vo.GeneratePayOrderVO;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
-import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -65,6 +64,7 @@ public class OrderInfoUtil2_0 {
 
     /**
      * 构造支付订单参数列表
+     *
      * @return
      */
     public static Map<String, String> buildOrderParamMap(GeneratePayOrderVO orderVO) {
@@ -80,6 +80,8 @@ public class OrderInfoUtil2_0 {
 
         keyValues.put("sign_type", "RSA");
 
+        keyValues.put("notify_url",orderVO.notify_url);
+
         keyValues.put("timestamp", new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()));
 
         keyValues.put("version", "1.0");
@@ -90,8 +92,7 @@ public class OrderInfoUtil2_0 {
     /**
      * 构造支付订单参数信息
      *
-     * @param map
-     * 支付订单参数
+     * @param map 支付订单参数
      * @return
      */
     public static String buildOrderParam(Map<String, String> map) {
@@ -139,9 +140,7 @@ public class OrderInfoUtil2_0 {
     /**
      * 对支付参数信息进行签名
      *
-     * @param map
-     *            待签名授权信息
-     *
+     * @param map 待签名授权信息
      * @return
      */
     public static String getSign(Map<String, String> map, String rsaKey) {
@@ -171,7 +170,6 @@ public class OrderInfoUtil2_0 {
         }
         return "sign=" + encodedSign;
     }
-
 
 
 }

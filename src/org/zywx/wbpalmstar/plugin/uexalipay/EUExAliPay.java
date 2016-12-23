@@ -1,8 +1,8 @@
 package org.zywx.wbpalmstar.plugin.uexalipay;
+
 import android.content.Context;
 import android.os.Handler;
 import android.os.Message;
-
 import com.alipay.android.app.lib.OrderInfoUtil2_0;
 import org.zywx.wbpalmstar.engine.DataHelper;
 import org.zywx.wbpalmstar.engine.EBrowserView;
@@ -26,7 +26,6 @@ public class EUExAliPay extends EUExBase {
     private static final String CONFIG_ERROR = "config error";
 
     private String payFuncId; //pay函数的回调
-
 
 
     public EUExAliPay(Context context, EBrowserView inParent) {
@@ -92,12 +91,12 @@ public class EUExAliPay extends EUExBase {
         }
     }
 
-    public void payWithOrder(String[] params){
+    public void payWithOrder(String[] params) {
         gotoPay(params);
     }
 
-    public String generatePayOrder(String[] params){
-        GeneratePayOrderVO payOrderVO= DataHelper.gson.fromJson(params[0],GeneratePayOrderVO.class);
+    public String generatePayOrder(String[] params) {
+        GeneratePayOrderVO payOrderVO = DataHelper.gson.fromJson(params[0], GeneratePayOrderVO.class);
 
         Map<String, String> payParams = OrderInfoUtil2_0.buildOrderParamMap(payOrderVO);
         String orderParam = OrderInfoUtil2_0.buildOrderParam(payParams);
@@ -106,7 +105,7 @@ public class EUExAliPay extends EUExBase {
     }
 
     public void gotoPay(String[] params) {
-        if(params == null || params.length < 1) {
+        if (params == null || params.length < 1) {
             return;
         }
         String submitInfo = params[0];
@@ -135,55 +134,55 @@ public class EUExAliPay extends EUExBase {
                 String strRet = (String) msg.obj;
                 String js = "";
                 switch (msg.what) {
-                case AlixId.RQF_PAY: {
-                    try {
-                        int status = 0;
-                        String callbackMsg = null;
-                        ResultChecker resultChecker = new ResultChecker(strRet);
-                        int retVal = resultChecker.checkSign(PFAlixpay.get(mContext).getPayConfig());
-                        if (retVal == ResultChecker.RESULT_CHECK_SIGN_FAILED) { // 订单信息被非法篡改
-                            status = EUExCallback.F_C_PAYFAILED;
-                            callbackMsg = PAY_FAILED;
-                            callback(status, callbackMsg);
-                            return;
-                        } else {
-                            String code = (String) resultChecker.getJSONResult().get("resultStatus");
-                            int resultCode = Integer.valueOf(code.substring(1,code.length() - 1));
-                            String memo = resultChecker.getJSONResult().getString("memo").replace("{", "").replace("}", "");
-                            switch (resultCode) {
-                            case 9000:// 支付成功
-                                if (resultChecker.isPayOk(PFAlixpay.get(mContext).getPayConfig())) {
-                                    status = EUExCallback.F_C_PAYSUCCSS;
-                                    callbackMsg = PAY_SUCCESS;
-                                }else {
-                                    status = EUExCallback.F_C_PAYFAILED;
-                                    callbackMsg = PAY_FAILED;
-                                }
-                                break;
-                            case 6001:// 用户中途取消支付操作
-                                status = 4;
-                                callbackMsg = PAY_CANCEL;
-                                break;
-                            case 4000:// 系统异常
-                            case 4001:// 数据格式不正确
-                            case 4003:// 该用户绑定的支付宝账户被冻结或不允许支付
-                            case 4004:// 该用户已解除绑定
-                            case 4005:// 绑定失败或没有绑定
-                            case 4006:// 订单支付失败
-                            case 4010:// 重新绑定账户
-                            case 6000:// 支付服务正在进行升级操作
-                            case 6002:// 网络错误
+                    case AlixId.RQF_PAY: {
+                        try {
+                            int status = 0;
+                            String callbackMsg = null;
+                            ResultChecker resultChecker = new ResultChecker(strRet);
+                            int retVal = resultChecker.checkSign(PFAlixpay.get(mContext).getPayConfig());
+                            if (retVal == ResultChecker.RESULT_CHECK_SIGN_FAILED) { // 订单信息被非法篡改
                                 status = EUExCallback.F_C_PAYFAILED;
                                 callbackMsg = PAY_FAILED;
-                                break;
+                                callback(status, callbackMsg);
+                                return;
+                            } else {
+                                String code = (String) resultChecker.getJSONResult().get("resultStatus");
+                                int resultCode = Integer.valueOf(code.substring(1, code.length() - 1));
+                                String memo = resultChecker.getJSONResult().getString("memo").replace("{", "").replace("}", "");
+                                switch (resultCode) {
+                                    case 9000:// 支付成功
+                                        if (resultChecker.isPayOk(PFAlixpay.get(mContext).getPayConfig())) {
+                                            status = EUExCallback.F_C_PAYSUCCSS;
+                                            callbackMsg = PAY_SUCCESS;
+                                        } else {
+                                            status = EUExCallback.F_C_PAYFAILED;
+                                            callbackMsg = PAY_FAILED;
+                                        }
+                                        break;
+                                    case 6001:// 用户中途取消支付操作
+                                        status = 4;
+                                        callbackMsg = PAY_CANCEL;
+                                        break;
+                                    case 4000:// 系统异常
+                                    case 4001:// 数据格式不正确
+                                    case 4003:// 该用户绑定的支付宝账户被冻结或不允许支付
+                                    case 4004:// 该用户已解除绑定
+                                    case 4005:// 绑定失败或没有绑定
+                                    case 4006:// 订单支付失败
+                                    case 4010:// 重新绑定账户
+                                    case 6000:// 支付服务正在进行升级操作
+                                    case 6002:// 网络错误
+                                        status = EUExCallback.F_C_PAYFAILED;
+                                        callbackMsg = PAY_FAILED;
+                                        break;
+                                }
+                                callback(status, callbackMsg);
                             }
-                            callback(status, callbackMsg);
+                        } catch (Exception e) { // 异常 提示信息为 strRet
+                            e.printStackTrace();
+                            errorCallback(0, 0, e.toString() + "//" + strRet);
                         }
-                    } catch (Exception e) { // 异常 提示信息为 strRet
-                        e.printStackTrace();
-                        errorCallback(0, 0, e.toString() + "//" + strRet);
                     }
-                }
                     m_paying = false;
                     break;
                 }
@@ -193,7 +192,8 @@ public class EUExAliPay extends EUExBase {
             }
         }
     }
-    private void callback(int status, String msg){
+
+    private void callback(int status, String msg) {
         String js = SCRIPT_HEADER + "if(" + onFunction + "){" + onFunction + "(" + status + ",'" + msg + "');}";
         onCallback(js);
         if (null != payFuncId) {
