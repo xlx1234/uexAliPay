@@ -3,6 +3,8 @@ package org.zywx.wbpalmstar.plugin.uexalipay;
 import android.content.Context;
 import android.os.Handler;
 import android.os.Message;
+import android.util.Log;
+
 import com.alipay.android.app.lib.OrderInfoUtil2_0;
 import org.zywx.wbpalmstar.engine.DataHelper;
 import org.zywx.wbpalmstar.engine.EBrowserView;
@@ -18,6 +20,7 @@ public class EUExAliPay extends EUExBase {
     static final String SCRIPT_HEADER = "javascript:";
 
     private PFPayCallBack m_eCallBack;
+    private PFPayWithOrderCallBack mPayWithOrderCallBack;
     private boolean m_paying;
 
     private static final String PAY_SUCCESS = "支付成功";
@@ -115,12 +118,12 @@ public class EUExAliPay extends EUExBase {
         if (m_paying)
             return;
         m_paying = true;
-        if (null == m_eCallBack) {
-            m_eCallBack = new PFPayCallBack();
+        if (null == mPayWithOrderCallBack) {
+            mPayWithOrderCallBack = new PFPayWithOrderCallBack();
         }
         try {
             PFAlixpay alipay = PFAlixpay.get(mContext);
-            alipay.fastPay(submitInfo, m_eCallBack);
+            alipay.fastPay(submitInfo, mPayWithOrderCallBack);
         } catch (Exception e) {
             m_paying = false;
             errorCallback(0, 0, e.toString());
@@ -140,6 +143,7 @@ public class EUExAliPay extends EUExBase {
                             String callbackMsg = null;
                             ResultChecker resultChecker = new ResultChecker(strRet);
                             int retVal = resultChecker.checkSign(PFAlixpay.get(mContext).getPayConfig());
+                            Log.i("djf", "retVal:" + retVal);
                             if (retVal == ResultChecker.RESULT_CHECK_SIGN_FAILED) { // 订单信息被非法篡改
                                 status = EUExCallback.F_C_PAYFAILED;
                                 callbackMsg = PAY_FAILED;
@@ -147,8 +151,9 @@ public class EUExAliPay extends EUExBase {
                                 return;
                             } else {
                                 String code = (String) resultChecker.getJSONResult().get("resultStatus");
+                                Log.i("djf", "code:" + code);
                                 int resultCode = Integer.valueOf(code.substring(1, code.length() - 1));
-                                String memo = resultChecker.getJSONResult().getString("memo").replace("{", "").replace("}", "");
+                                Log.i("djf", "resultCode:" + resultCode);
                                 switch (resultCode) {
                                     case 9000:// 支付成功
                                         if (resultChecker.isPayOk(PFAlixpay.get(mContext).getPayConfig())) {
@@ -192,6 +197,65 @@ public class EUExAliPay extends EUExBase {
             }
         }
     }
+
+    private class PFPayWithOrderCallBack extends Handler {
+        @Override
+        public void handleMessage(Message msg) {
+            try {
+                String strRet = (String) msg.obj;
+                Log.i("djf","strRet:" + strRet);
+                String js = "";
+                switch (msg.what) {
+                    case AlixId.RQF_PAY: {
+                        try {
+                            int status = 0;
+                            String callbackMsg = null;
+                            ResultChecker resultChecker = new ResultChecker(strRet);
+                            String code = (String) resultChecker.getJSONResult().get("resultStatus");
+                            int resultCode = Integer.valueOf(code.substring(1, code.length() - 1));
+                            Log.i("djf", "resultCode:" + resultCode);
+                            switch (resultCode) {
+                                case 9000:// 支付成功
+                                    String result = (String) resultChecker.getJSONResult().get("result");
+                                    result = result.substring(1, result.length() - 1);
+                                    status = EUExCallback.F_C_PAYSUCCSS;
+                                    callbackMsg = result;
+                                    break;
+                                case 6001:// 用户中途取消支付操作
+                                    status = 4;
+                                    callbackMsg = PAY_CANCEL;
+                                    break;
+                                case 4000:// 系统异常
+                                case 4001:// 数据格式不正确
+                                case 4003:// 该用户绑定的支付宝账户被冻结或不允许支付
+                                case 4004:// 该用户已解除绑定
+                                case 4005:// 绑定失败或没有绑定
+                                case 4006:// 订单支付失败
+                                case 4010:// 重新绑定账户
+                                case 6000:// 支付服务正在进行升级操作
+                                case 6002:// 网络错误
+                                default:
+                                    status = resultCode;
+                                    String memo = (String) resultChecker.getJSONResult().get("memo");
+                                    callbackMsg = memo.substring(1, memo.length() - 1);
+                                    break;
+                            }
+                            callback(status, callbackMsg);
+                        } catch (Exception e) { // 异常 提示信息为 strRet
+                            e.printStackTrace();
+                            errorCallback(0, 0, e.toString() + "//" + strRet);
+                        }
+                    }
+                    m_paying = false;
+                    break;
+                }
+                super.handleMessage(msg);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
 
     private void callback(int status, String msg) {
         String js = SCRIPT_HEADER + "if(" + onFunction + "){" + onFunction + "(" + status + ",'" + msg + "');}";
