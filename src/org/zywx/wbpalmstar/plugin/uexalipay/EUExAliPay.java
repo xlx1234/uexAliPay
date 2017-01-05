@@ -135,7 +135,6 @@ public class EUExAliPay extends EUExBase {
         public void handleMessage(Message msg) {
             try {
                 String strRet = (String) msg.obj;
-                String js = "";
                 switch (msg.what) {
                     case AlixId.RQF_PAY: {
                         try {
@@ -143,7 +142,6 @@ public class EUExAliPay extends EUExBase {
                             String callbackMsg = null;
                             ResultChecker resultChecker = new ResultChecker(strRet);
                             int retVal = resultChecker.checkSign(PFAlixpay.get(mContext).getPayConfig());
-                            Log.i("djf", "retVal:" + retVal);
                             if (retVal == ResultChecker.RESULT_CHECK_SIGN_FAILED) { // 订单信息被非法篡改
                                 status = EUExCallback.F_C_PAYFAILED;
                                 callbackMsg = PAY_FAILED;
@@ -151,9 +149,7 @@ public class EUExAliPay extends EUExBase {
                                 return;
                             } else {
                                 String code = (String) resultChecker.getJSONResult().get("resultStatus");
-                                Log.i("djf", "code:" + code);
                                 int resultCode = Integer.valueOf(code.substring(1, code.length() - 1));
-                                Log.i("djf", "resultCode:" + resultCode);
                                 switch (resultCode) {
                                     case 9000:// 支付成功
                                         if (resultChecker.isPayOk(PFAlixpay.get(mContext).getPayConfig())) {
@@ -203,7 +199,6 @@ public class EUExAliPay extends EUExBase {
         public void handleMessage(Message msg) {
             try {
                 String strRet = (String) msg.obj;
-                Log.i("djf","strRet:" + strRet);
                 String js = "";
                 switch (msg.what) {
                     case AlixId.RQF_PAY: {
@@ -213,7 +208,6 @@ public class EUExAliPay extends EUExBase {
                             ResultChecker resultChecker = new ResultChecker(strRet);
                             String code = (String) resultChecker.getJSONResult().get("resultStatus");
                             int resultCode = Integer.valueOf(code.substring(1, code.length() - 1));
-                            Log.i("djf", "resultCode:" + resultCode);
                             switch (resultCode) {
                                 case 9000:// 支付成功
                                     String result = (String) resultChecker.getJSONResult().get("result");
