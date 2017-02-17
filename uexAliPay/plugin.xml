@@ -7,5 +7,7 @@
         <method name="gotoPay"/>
         <method name="payWithOrder"/>
         <method name="generatePayOrder"/>
+        <method name="auth"/>
+        <method name="getAuthInfo"/>
     </plugin>
 </uexplugins>

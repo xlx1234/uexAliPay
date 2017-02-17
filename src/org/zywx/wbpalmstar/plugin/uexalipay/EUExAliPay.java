@@ -1,16 +1,20 @@
 package org.zywx.wbpalmstar.plugin.uexalipay;
 
+import android.app.Activity;
 import android.content.Context;
 import android.os.Handler;
 import android.os.Message;
-import android.util.Log;
+import android.text.TextUtils;
 
 import com.alipay.android.app.lib.OrderInfoUtil2_0;
+import com.alipay.sdk.app.AuthTask;
+
 import org.zywx.wbpalmstar.engine.DataHelper;
 import org.zywx.wbpalmstar.engine.EBrowserView;
 import org.zywx.wbpalmstar.engine.universalex.EUExBase;
 import org.zywx.wbpalmstar.engine.universalex.EUExCallback;
 import org.zywx.wbpalmstar.plugin.uexalipay.vo.GeneratePayOrderVO;
+import org.zywx.wbpalmstar.plugin.uexalipay.vo.GetAuthInfoVO;
 
 import java.util.Map;
 
@@ -103,7 +107,7 @@ public class EUExAliPay extends EUExBase {
 
         Map<String, String> payParams = OrderInfoUtil2_0.buildOrderParamMap(payOrderVO);
         String orderParam = OrderInfoUtil2_0.buildOrderParam(payParams);
-        String sign = OrderInfoUtil2_0.getSign(payParams, payOrderVO.private_key);
+        String sign = OrderInfoUtil2_0.getSign(payParams, payOrderVO.private_key,false);
         return orderParam + "&" + sign;
     }
 
@@ -251,12 +255,67 @@ public class EUExAliPay extends EUExBase {
     }
 
 
+    public void auth(String[] params){
+
+        final String authInfo = params[0];
+        int callbackId=-1;
+        if (params.length>1){
+            callbackId= Integer.parseInt(params[1]);
+        }
+        final int finalCallbackId = callbackId;
+        Runnable authRunnable = new Runnable() {
+
+            @Override
+            public void run() {
+                // 构造AuthTask 对象
+                AuthTask authTask = new AuthTask((Activity) mContext);
+                // 调用授权接口，获取授权结果
+                Map<String, String> result = authTask.authV2(authInfo, true);
+
+                AuthResult authResult = new AuthResult(result, true);
+                String resultStatus = authResult.getResultStatus();
+
+                // 判断resultStatus 为“9000”且result_code
+                // 为“200”则代表授权成功，具体状态码代表含义可参考授权接口文档
+                if (TextUtils.equals(resultStatus, "9000") && TextUtils.equals(authResult.getResultCode(), "200")) {
+                    // 获取alipay_open_id，调支付时作为参数extern_token 的value
+                    // 传入，则支付账户为该授权账户
+//                    Toast.makeText(mContext,
+//                            "授权成功\n" + String.format("authCode:%s", authResult.getAuthCode()), Toast.LENGTH_SHORT)
+//                            .show();
+                    callbackToJs(finalCallbackId,false,0,DataHelper.gson.toJsonTree(authResult));
+                } else {
+                    // 其他状态值则为授权失败
+//                    Toast.makeText(mContext,
+//                            "授权失败" + String.format("authCode:%s", authResult.getAuthCode()), Toast.LENGTH_SHORT).show();
+                    callbackToJs(finalCallbackId,false,1,DataHelper.gson.toJsonTree(authResult));
+                }
+            }
+        };
+
+        // 必须异步调用
+        Thread authThread = new Thread(authRunnable);
+        authThread.start();
+    }
+
     private void callback(int status, String msg) {
         String js = SCRIPT_HEADER + "if(" + onFunction + "){" + onFunction + "(" + status + ",'" + msg + "');}";
         onCallback(js);
         if (null != payFuncId) {
             callbackToJs(Integer.parseInt(payFuncId), false, status, msg);
         }
+    }
+
+    public String getAuthInfo(String[] params){
+
+        GetAuthInfoVO getAuthInfoVO=DataHelper.gson.fromJson(params[0],GetAuthInfoVO.class);
+        Map<String, String> authInfoMap = OrderInfoUtil2_0.buildAuthInfoMap(getAuthInfoVO.pid, getAuthInfoVO.appId, getAuthInfoVO.targetId,
+                getAuthInfoVO.rsa2);
+        String info = OrderInfoUtil2_0.buildOrderParam(authInfoMap);
+
+        String sign = OrderInfoUtil2_0.getSign(authInfoMap, getAuthInfoVO.rsaPrivate, getAuthInfoVO.rsa2);
+        final String authInfo = info + "&" + sign;
+        return authInfo;
     }
 
     @Override
