@@ -41,6 +41,9 @@ public class OrderInfoUtil2_0 {
         // 商户类型标识， 固定值
         keyValues.put("app_name", "mc");
 
+        //接口名称，常量值
+        keyValues.put("method","alipay.open.auth.sdk.code.get");
+
         // 业务类型， 固定值
         keyValues.put("biz_type", "openservice");
 
