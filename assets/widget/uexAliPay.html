@@ -2,7 +2,7 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-        
+
         <meta name="viewport"
         content="target-density, dpi=device-dpi, width=device-width, initial-scale=1.0, user-scalable=no" />
         <link rel="stylesheet" type="text/css" href="css/index.css">
@@ -31,12 +31,12 @@
 	var seller = "78871900@qq.com";
 	var rsaPrivate = "MIICdwIBADANBgkqhkiG9w0BAQEFAASCAmEwggJdAgEAAoGBAKbw8KoSfMCmRFRvsSMRF0zsYTtAP6rF2XGpfAlvE/Y6vyJGNzIDOTCHTYCw28Un7XMz6grtRALVltXzzT7W45BSSINAYqmfWWiYGrZjgjWRdq15XHTDBY+Jfyy3Y+eRRwogTQjG7I0ke8mod6e/C4ey1ALExseqaSb/e+35fYQNAgMBAAECgYEAhN5lnedC9Y4f+lg/UxqqQeYtaRw00DXSYD215EhNSf/t2liqW5rnLLGzxMZ+1Id33OYn0/SN2fenqrf11prv2MgaxoBbcVWfr1IXsgnem/FAi3V6avoaixop56FXhasUkxjczlijlqB5kLS3cWZbPhVYhn4E3TszcjtLOsIe6D0CQQDRQnWcaXH/aFh/0g9gllG52F5yOXkEGPMLEc1h3hD9+SXn9QqnM50ZHJBarPo/FriVa2ZjTDHtb8WEILNu4pMrAkEAzDqyeJfP5DcQcwaJpRCaFReVeHhViG3z3Yq8vVprCS45ly3fSRddL4H8SGWwDEoB+OzkzwGb/E/bBFpKgAkJpwJAKOvmNAAq2td89wINH8ZFlSJK1euHTtXSMYf5sfnLON9QGlxBCRF+1zpOwGyzQ0MeNZobG6/604PYDE6YyEZmoQJBAL41lO84BUl593oKBryTn84xLucKvC7aqRwXEP4SbkoYoU6qTKGYfxO2Lq+G9dYcP4YFrH0X9J2kCkodhfGFeVUCQAXFkzIfRRui37Rjppjms7YfIvRNx4tJDmFHlFNTCWtplAKf7CGVQ/nsvyywjA+i+0vmaftUzoOdIcWnI8UEr9I=";
 	var rsaPublic = "MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCnxj/9qwVfgoUh/y2W89L6BkRAFljhNhgPdyPuBV64bfQNN1PjbCzkIM6qRdKBoLPXmKKMiFYnkd6rAoprih3/PrQEB/VsW8OoM8fxn67UDYuyBTqA23MML9q1+ilIZwBC2AQ2UBVOrFXfFl75p6/B5KsiNG9zpgmLCUYuLkxpLQIDAQAB";
-	
+
 	function setInfo(){
 		var notifyUrl = document.getElementById("notifyURL").value;
 		uexAliPay.setPayInfo(partner, seller, rsaPrivate, rsaPublic, notifyUrl);
 	}
-	
+
 	function pay(){
 		setInfo();
 		var subject = document.getElementById("subject").value;
@@ -44,14 +44,14 @@
 		var fee = document.getElementById("fee").value;
 		var num = document.getElementById("num").value;
 		uexAliPay.pay(num, subject, body, fee);
-		
+
 	}
-	
+
 	function gotoPay() {
 		var info = 'partner="2088211417267818"&seller_id="78871900@qq.com"&out_trade_no="200112323"&subject="珍珠项链"&body="韩版,韩国流行饰品小太阳花小巧雏菊 珍珠项链2M15。"&total_fee="0.01"&notify_url="www.123.com"&service="mobile.securitypay.pay"&payment_type="1"&_input_charset="utf-8"&it_b_pay="30m"&sign="GW5CWsK95cPuFaJGvhEsOkkvAMoTMzQMmfpmuWXwSQJOUQtm97bbBB9ojwoBWOGZWd3VE7ul9qeK47PWfWiYUSMY%2FOHmlf8y%2FKAfYC7XhRCIkNbtIrXOFEnD2K00AhJwiYSwIF%2BNEPCfe8lK67Y2UOPa9RceC5Y4UDzo4sCAhOQ%3D"&sign_type="RSA"';
 		uexAliPay.gotoPay(info);
 	}
-	
+
 	function paySuccess(status, des){
 		document.getElementById('adre').innerHTML  = des;
 	}
@@ -69,13 +69,13 @@
   </head>
 <body class="um-vp " ontouchstart>
 	<div class="conbor">
-		<div class="consj">	
+		<div class="consj">
 			<span>支付接口测试：</span>
 			<span>订单信息：</span>
 			<b>标题：</b><input type="text" id="subject" value="珍珠项链"><br>
 			<b>简介：</b><input type="text" id="bodyy" value="韩版,韩国流行饰品小太阳花小巧雏菊 珍珠项链2M15。"><br>
 			<b>总价：</b><input type="text" id="fee" value="0.01"><br>
-			<b>编号：</b><input type="text" id="num" value="200155555"><br>
+			<b>编号：</b><input type="text" id="num" value="200155562"><br>
 			<span>商家信息：</span>
 			<b>回调地址：</b><input type="text" id="notifyURL" value="www.123.com"><br>
 			<span>支付结果：</span>
