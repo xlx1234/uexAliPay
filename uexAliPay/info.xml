@@ -1,8 +1,9 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <uexplugins>
     <plugin
-        uexName="uexAliPay" version="3.0.9" build="9">
-		<info>9:升级支付宝SDK, 解决唤起支付宝APP失败</info>
+        uexName="uexAliPay" version="3.0.10" build="10">
+		<info>10:修复支付成功之后没有回调的问题</info>
+		<build>9:升级支付宝SDK, 解决唤起支付宝APP失败</build>
 		<build>8:更新支付宝SDK。解决当用户手机没有安装支付宝快捷支付服务时出现解析包错误的问题</build>
 		<build>7:更新支付宝SDK</build>
 		<build>6:插件主页面点击物理返回键，插件崩溃</build>
