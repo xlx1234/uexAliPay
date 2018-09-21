@@ -1,7 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <uexplugins>
-    <plugin uexName="uexAliPay" version="4.0.4" build="4">
-        <info>4:更新SDK_20170922,修复支付宝登录无法使用H5授权的问题</info>
+    <plugin uexName="uexAliPay" version="4.0.5" build="4">
+        <info>5:更新SDK_20180601</info>
+        <build>4:更新SDK_20170922,修复支付宝登录无法使用H5授权的问题</build>
         <build>3:支持支付宝登录</build>
         <build>2:修复支付成功之后没有回调的问题</build>
         <build>1:支持支付宝新版接口</build>
