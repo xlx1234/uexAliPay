@@ -12,6 +12,7 @@ if(UNIT_TEST){
                     UNIT_TEST.assert(true);
                 }else{
                     UNIT_TEST.log(data);
+                   console.log('data==='+data);
                     UNIT_TEST.assert(false);
                     }
 

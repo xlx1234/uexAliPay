@@ -35,10 +35,11 @@
 	function setInfo(){
 		var notifyUrl = document.getElementById("notifyURL").value;
 		uexAliPay.setPayInfo(partner, seller, rsaPrivate, rsaPublic, notifyUrl);
+
 	}
 
     var commonCallback = function(status, msg) {
-        alert(status + "   " + msg);
+         alert(status + "   " + msg);
         document.getElementById('adre').innerHTML  = msg;
 
     };
@@ -53,7 +54,7 @@
 	}
 
 	function gotoPay() {
-		var info = 'partner="2088211417267818"&seller_id="78871900@qq.com"&out_trade_no="200112323"&subject="珍珠项链"&body="韩版,韩国流行饰品小太阳花小巧雏菊 珍珠项链2M15。"&total_fee="0.01"&notify_url="www.123.com"&service="mobile.securitypay.pay"&payment_type="1"&_input_charset="utf-8"&it_b_pay="30m"&sign="GW5CWsK95cPuFaJGvhEsOkkvAMoTMzQMmfpmuWXwSQJOUQtm97bbBB9ojwoBWOGZWd3VE7ul9qeK47PWfWiYUSMY%2FOHmlf8y%2FKAfYC7XhRCIkNbtIrXOFEnD2K00AhJwiYSwIF%2BNEPCfe8lK67Y2UOPa9RceC5Y4UDzo4sCAhOQ%3D"&sign_type="RSA"';
+	var info = 'partner="2088211417267818"&seller_id="78871900@qq.com"&out_trade_no="200112323"&subject="珍珠项链"&body="韩版,韩国流行饰品小太阳花小巧雏菊 珍珠项链2M15。"&total_fee="0.01"&notify_url="www.123.com"&service="mobile.securitypay.pay"&payment_type="1"&_input_charset="utf-8"&it_b_pay="30m"&sign="GW5CWsK95cPuFaJGvhEsOkkvAMoTMzQMmfpmuWXwSQJOUQtm97bbBB9ojwoBWOGZWd3VE7ul9qeK47PWfWiYUSMY%2FOHmlf8y%2FKAfYC7XhRCIkNbtIrXOFEnD2K00AhJwiYSwIF%2BNEPCfe8lK67Y2UOPa9RceC5Y4UDzo4sCAhOQ%3D"&sign_type="RSA"';
 		uexAliPay.gotoPay(info);
 	}
 

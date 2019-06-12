@@ -1,5 +1,7 @@
 package com.alipay.android.app.lib;
 
+import android.util.Log;
+
 import org.zywx.wbpalmstar.engine.DataHelper;
 import org.zywx.wbpalmstar.plugin.uexalipay.vo.GeneratePayOrderVO;
 
@@ -112,7 +114,7 @@ public class OrderInfoUtil2_0 {
         String tailKey = keys.get(keys.size() - 1);
         String tailValue = map.get(tailKey);
         sb.append(buildKeyValue(tailKey, tailValue, true));
-
+        Log.e("sb.toString()=======",sb.toString());
         return sb.toString();
     }
 

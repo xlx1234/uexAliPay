@@ -39,6 +39,7 @@ public class EUExAliPay extends EUExBase {
         super(context, inParent);
     }
 
+
     /**
      * 初始化商家信息
      *
@@ -104,7 +105,6 @@ public class EUExAliPay extends EUExBase {
 
     public String generatePayOrder(String[] params) {
         GeneratePayOrderVO payOrderVO = DataHelper.gson.fromJson(params[0], GeneratePayOrderVO.class);
-
         Map<String, String> payParams = OrderInfoUtil2_0.buildOrderParamMap(payOrderVO);
         String orderParam = OrderInfoUtil2_0.buildOrderParam(payParams);
         String sign = OrderInfoUtil2_0.getSign(payParams, payOrderVO.private_key,false);

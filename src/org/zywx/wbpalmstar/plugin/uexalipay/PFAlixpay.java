@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.os.Handler;
 import android.os.Message;
+import android.util.Log;
 import android.widget.Toast;
 import com.alipay.sdk.app.PayTask;
 import org.json.JSONException;
@@ -64,7 +65,7 @@ public class PFAlixpay {
                     PayTask alipay = new PayTask((Activity) mContext);
                     // 调用支付接口
                     String result = alipay.pay(submitInfo, true);
-
+                    Log.e("------",result);
                     Message msg = new Message();
                     msg.what = AlixId.RQF_PAY;
                     msg.obj = result;
